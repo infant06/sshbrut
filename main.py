@@ -12,7 +12,7 @@ def ssh_connect(host, username, password):
     ssh_client.set_missing_host_key_policy(AutoAddPolicy())
     try:
         ssh_client.connect(host,port=22,username=username, password=password, banner_timeout=300)
-        with open("credentials_found.txt", "a") as fh:
+        with open("results.txt", "a") as fh:
             print(f"Username - {username} and Password - {password} found.")
             fh.write(f"Username: {username}\nPassword: {password}\nWorked on host {host}\n")
     except AuthenticationException:
